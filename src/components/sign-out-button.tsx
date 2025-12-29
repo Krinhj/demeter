@@ -29,7 +29,7 @@ export function SignOutButton() {
       <AlertDialogTrigger asChild>
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 h-9 px-2 text-muted-foreground hover:text-foreground hover:bg-sidebar-accent"
+          className="w-full justify-start gap-2 h-8 px-2 text-muted-foreground hover:text-foreground hover:bg-sidebar-accent group-data-[collapsible=icon]:w-8 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:justify-center"
         >
           <LogOut className="h-4 w-4 shrink-0" />
           <span className="group-data-[collapsible=icon]:hidden">Sign out</span>

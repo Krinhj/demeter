@@ -1,15 +1,8 @@
-import { redirect } from "next/navigation";
-import { isAuthenticated } from "@/lib/auth";
 import { LoginForm } from "./_components/login-form";
 import { Leaf } from "lucide-react";
 
-export default async function LoginPage() {
-  const authenticated = await isAuthenticated();
-
-  if (authenticated) {
-    redirect("/");
-  }
-
+export default function LoginPage() {
+  // Auth redirect is handled by middleware
   return (
     <div className="min-h-screen grid lg:grid-cols-2">
       {/* Visual Panel - Left */}

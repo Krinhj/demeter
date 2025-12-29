@@ -25,15 +25,15 @@ export function LoginForm() {
       )}
 
       <div className="space-y-2">
-        <Label htmlFor="username">Username</Label>
+        <Label htmlFor="email">Email</Label>
         <Input
-          id="username"
-          name="username"
-          type="text"
-          placeholder="Enter your username"
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Enter your email"
           required
           disabled={isPending}
-          autoComplete="username"
+          autoComplete="email"
           className="h-11"
         />
       </div>

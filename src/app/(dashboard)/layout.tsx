@@ -1,19 +1,14 @@
-import { redirect } from "next/navigation";
-import { isAuthenticated } from "@/lib/auth";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 
-export default async function DashboardLayout({
+export const dynamic = "force-dynamic";
+
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const authenticated = await isAuthenticated();
-
-  if (!authenticated) {
-    redirect("/login");
-  }
-
+  // Auth redirect is handled by middleware
   return (
     <SidebarProvider>
       <AppSidebar />
