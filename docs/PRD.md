@@ -194,6 +194,7 @@ Since Demeter is initially a personal tool, personas revolve around a single rea
 - **FR-33:** Nutrition label scanning.
 - **FR-34:** Leftover tracking and waste reduction.
 - **FR-35:** Export meal plans and grocery lists as PDF.
+- **FR-36:** Grocery List API for iPhone Shortcuts integration (see [spec](./features/grocery-list-api.md)).
 
 ## 6. Architecture and Technical Constraints
 
