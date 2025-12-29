@@ -39,3 +39,28 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Code
+.claude/settings.local.json
+.mcp.json
+
+# Supabase
+supabase/.temp/
+supabase/.branches/
+supabase/.cache/
+
+# Mastra
+.mastra/
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
