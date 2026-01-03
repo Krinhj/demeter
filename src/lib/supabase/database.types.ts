@@ -272,6 +272,7 @@ export type Database = {
           cook_time_minutes: number | null
           created_at: string
           description: string | null
+          equipment: Json | null
           fat: number | null
           fiber: number | null
           id: string
@@ -295,6 +296,7 @@ export type Database = {
           cook_time_minutes?: number | null
           created_at?: string
           description?: string | null
+          equipment?: Json | null
           fat?: number | null
           fiber?: number | null
           id?: string
@@ -318,6 +320,7 @@ export type Database = {
           cook_time_minutes?: number | null
           created_at?: string
           description?: string | null
+          equipment?: Json | null
           fat?: number | null
           fiber?: number | null
           id?: string
