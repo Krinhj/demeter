@@ -9,13 +9,12 @@ import {
 } from "@/server/services/nutrition-goals-service";
 import {
   createNutritionGoalsSchema,
-  updateNutritionGoalsSchema,
   onboardingPreferencesSchema,
   type CreateNutritionGoalsInput,
   type UpdateNutritionGoalsInput,
   type OnboardingPreferencesInput,
 } from "./nutrition-goals.schema";
-import type { ActionResult } from "./action-result";
+import type { ActionResult } from "@/lib/action-result";
 import type { NutritionGoals } from "@/types/nutrition";
 
 /**
@@ -32,10 +31,7 @@ export async function getNutritionGoalsAction(): Promise<ActionResult<NutritionG
     if (authError || !user) {
       return {
         success: false,
-        error: {
-          message: "Unauthorized",
-          code: "UNAUTHORIZED",
-        },
+        error: "Unauthorized",
       };
     }
 
@@ -49,10 +45,7 @@ export async function getNutritionGoalsAction(): Promise<ActionResult<NutritionG
     console.error("Error in getNutritionGoalsAction:", error);
     return {
       success: false,
-      error: {
-        message: error instanceof Error ? error.message : "Failed to fetch nutrition goals",
-        code: "FETCH_ERROR",
-      },
+      error: error instanceof Error ? error.message : "Failed to fetch nutrition goals",
     };
   }
 }
@@ -73,10 +66,7 @@ export async function saveNutritionGoalsAction(
     if (authError || !user) {
       return {
         success: false,
-        error: {
-          message: "Unauthorized",
-          code: "UNAUTHORIZED",
-        },
+        error: "Unauthorized",
       };
     }
 
@@ -85,17 +75,14 @@ export async function saveNutritionGoalsAction(
     if (!validation.success) {
       return {
         success: false,
-        error: {
-          message: validation.error.errors[0]?.message || "Invalid input",
-          code: "VALIDATION_ERROR",
-        },
+        error: validation.error.errors[0]?.message || "Invalid input",
       };
     }
 
     const goals = await upsertNutritionGoals(user.id, validation.data);
 
-    revalidateTag("nutrition-goals");
-    revalidateTag(`nutrition-goals-${user.id}`);
+    revalidateTag("nutrition-goals", "max");
+    revalidateTag(`nutrition-goals-${user.id}`, "max");
 
     return {
       success: true,
@@ -105,10 +92,7 @@ export async function saveNutritionGoalsAction(
     console.error("Error in saveNutritionGoalsAction:", error);
     return {
       success: false,
-      error: {
-        message: error instanceof Error ? error.message : "Failed to save nutrition goals",
-        code: "SAVE_ERROR",
-      },
+      error: error instanceof Error ? error.message : "Failed to save nutrition goals",
     };
   }
 }
@@ -129,10 +113,7 @@ export async function saveOnboardingPreferencesAction(
     if (authError || !user) {
       return {
         success: false,
-        error: {
-          message: "Unauthorized",
-          code: "UNAUTHORIZED",
-        },
+        error: "Unauthorized",
       };
     }
 
@@ -141,10 +122,7 @@ export async function saveOnboardingPreferencesAction(
     if (!validation.success) {
       return {
         success: false,
-        error: {
-          message: validation.error.errors[0]?.message || "Invalid input",
-          code: "VALIDATION_ERROR",
-        },
+        error: validation.error.errors[0]?.message || "Invalid input",
       };
     }
 
@@ -161,8 +139,8 @@ export async function saveOnboardingPreferencesAction(
       exclusions: validation.data.exclusions,
     });
 
-    revalidateTag("nutrition-goals");
-    revalidateTag(`nutrition-goals-${user.id}`);
+    revalidateTag("nutrition-goals", "max");
+    revalidateTag(`nutrition-goals-${user.id}`, "max");
 
     return {
       success: true,
@@ -172,10 +150,7 @@ export async function saveOnboardingPreferencesAction(
     console.error("Error in saveOnboardingPreferencesAction:", error);
     return {
       success: false,
-      error: {
-        message: error instanceof Error ? error.message : "Failed to save onboarding preferences",
-        code: "SAVE_ERROR",
-      },
+      error: error instanceof Error ? error.message : "Failed to save onboarding preferences",
     };
   }
 }
@@ -194,10 +169,7 @@ export async function checkOnboardingStatusAction(): Promise<ActionResult<{ comp
     if (authError || !user) {
       return {
         success: false,
-        error: {
-          message: "Unauthorized",
-          code: "UNAUTHORIZED",
-        },
+        error: "Unauthorized",
       };
     }
 
@@ -211,10 +183,7 @@ export async function checkOnboardingStatusAction(): Promise<ActionResult<{ comp
     console.error("Error in checkOnboardingStatusAction:", error);
     return {
       success: false,
-      error: {
-        message: error instanceof Error ? error.message : "Failed to check onboarding status",
-        code: "CHECK_ERROR",
-      },
+      error: error instanceof Error ? error.message : "Failed to check onboarding status",
     };
   }
 }
