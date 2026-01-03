@@ -2,9 +2,9 @@
 
 import { useRef, useEffect } from "react";
 import { Send, Loader2, Leaf } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChatOverlay } from "./chat-provider";
 import { cn } from "@/lib/utils";
 
@@ -58,10 +58,10 @@ export function ChatPanel() {
   };
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
+    <div className="flex h-full flex-col overflow-hidden">
       {/* Messages */}
-      <ScrollArea className="flex-1" ref={scrollRef}>
-        <div className="flex flex-col gap-4 p-4">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4">
+        <div className="flex flex-col gap-4">
           {messages.length === 0 ? (
             <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
@@ -124,6 +124,10 @@ export function ChatPanel() {
                         <Loader2 className="h-4 w-4 animate-spin" />
                         <span>Thinking...</span>
                       </div>
+                    ) : message.role === "assistant" ? (
+                      <div className="prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+                        <ReactMarkdown>{message.content}</ReactMarkdown>
+                      </div>
                     ) : (
                       <div className="whitespace-pre-wrap">{message.content}</div>
                     )}
@@ -133,7 +137,7 @@ export function ChatPanel() {
             })
           )}
         </div>
-      </ScrollArea>
+      </div>
 
       {/* Input */}
       <div className="border-t p-4">
