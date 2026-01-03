@@ -84,7 +84,7 @@ export async function createRecipeAction(
       is_favorite: false,
     });
 
-    revalidateTag("recipes");
+    revalidateTag("recipes", "max");
 
     return { success: true, data: { id } };
   } catch (error) {
@@ -117,8 +117,8 @@ export async function updateRecipeAction(
 
   try {
     await updateRecipe(id, updates);
-    revalidateTag("recipes");
-    revalidateTag(`recipe-${id}`);
+    revalidateTag("recipes", "max");
+    revalidateTag(`recipe-${id}`, "max");
 
     return { success: true, data: undefined };
   } catch (error) {
@@ -149,7 +149,7 @@ export async function deleteRecipeAction(
 
   try {
     await deleteRecipe(validated.data.id);
-    revalidateTag("recipes");
+    revalidateTag("recipes", "max");
 
     return { success: true, data: undefined };
   } catch (error) {
@@ -180,8 +180,8 @@ export async function toggleFavoriteAction(
 
   try {
     const isFavorite = await toggleFavoriteService(validated.data.id);
-    revalidateTag("recipes");
-    revalidateTag(`recipe-${validated.data.id}`);
+    revalidateTag("recipes", "max");
+    revalidateTag(`recipe-${validated.data.id}`, "max");
 
     return { success: true, data: { is_favorite: isFavorite } };
   } catch (error) {

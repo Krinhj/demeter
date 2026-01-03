@@ -44,7 +44,7 @@ export interface ParsedRecipe {
 }
 
 // Recipe with typed JSONB fields
-export interface RecipeWithDetails extends Omit<Recipe, "ingredients" | "steps"> {
+export interface RecipeWithDetails extends Omit<Recipe, "ingredients" | "steps" | "equipment"> {
   ingredients: Ingredient[];
   steps: string[];
   equipment: Equipment[];
