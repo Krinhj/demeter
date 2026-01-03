@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { RecipeImageUpload } from "./recipe-image-upload";
 import { updateRecipeAction } from "@/server/actions/recipes.actions";
 import type { RecipeWithDetails, Ingredient, Equipment } from "@/types/recipe";
 
@@ -209,27 +210,40 @@ export function RecipeEditForm({ recipe }: RecipeEditFormProps) {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="imageUrl">Image URL</Label>
-                <Input
-                  id="imageUrl"
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="https://..."
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="sourceUrl">Source URL</Label>
-                <Input
-                  id="sourceUrl"
-                  type="url"
-                  value={sourceUrl}
-                  onChange={(e) => setSourceUrl(e.target.value)}
-                  placeholder="https://..."
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="sourceUrl">Source URL</Label>
+              <Input
+                id="sourceUrl"
+                type="url"
+                value={sourceUrl}
+                onChange={(e) => setSourceUrl(e.target.value)}
+                placeholder="https://..."
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Recipe Image */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Recipe Image</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <RecipeImageUpload
+              currentImageUrl={imageUrl || null}
+              onImageChange={(url) => setImageUrl(url || "")}
+            />
+            <div className="space-y-2">
+              <Label htmlFor="imageUrl" className="text-sm text-muted-foreground">
+                Or enter an image URL directly
+              </Label>
+              <Input
+                id="imageUrl"
+                type="url"
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                placeholder="https://..."
+              />
             </div>
           </CardContent>
         </Card>

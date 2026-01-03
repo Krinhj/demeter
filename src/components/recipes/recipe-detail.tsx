@@ -131,9 +131,9 @@ export function RecipeDetail({ recipe }: RecipeDetailProps) {
       </div>
 
       {/* Recipe Card */}
-      <Card>
+      <Card className="overflow-hidden pt-0">
         {/* Image */}
-        <div className="relative aspect-video w-full overflow-hidden rounded-t-lg bg-muted">
+        <div className="relative aspect-video w-full bg-muted">
           {recipe.image_url ? (
             <img
               src={recipe.image_url}

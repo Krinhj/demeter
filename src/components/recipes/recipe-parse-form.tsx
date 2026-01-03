@@ -12,6 +12,7 @@ import { RecipeSteps } from "./recipe-steps";
 import { RecipeEquipment } from "./recipe-equipment";
 import { RecipeMacros } from "./recipe-macros";
 import { RecipeTags } from "./recipe-tags";
+import { RecipeImageUpload } from "./recipe-image-upload";
 import {
   parseRecipeAction,
   createRecipeAction,
@@ -22,6 +23,7 @@ export function RecipeParseForm() {
   const router = useRouter();
   const [recipeText, setRecipeText] = useState("");
   const [parsedRecipe, setParsedRecipe] = useState<ParsedRecipe | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isParsing, startParsing] = useTransition();
   const [isSaving, startSaving] = useTransition();
@@ -44,7 +46,12 @@ export function RecipeParseForm() {
 
     setError(null);
     startSaving(async () => {
-      const result = await createRecipeAction(parsedRecipe);
+      // Include the uploaded image URL when saving
+      const recipeWithImage = {
+        ...parsedRecipe,
+        image_url: imageUrl,
+      };
+      const result = await createRecipeAction(recipeWithImage);
 
       if (result.success) {
         router.push(`/recipes/${result.data.id}`);
@@ -56,6 +63,7 @@ export function RecipeParseForm() {
 
   const handleReset = () => {
     setParsedRecipe(null);
+    setImageUrl(null);
     setError(null);
   };
 
@@ -109,6 +117,15 @@ export function RecipeParseForm() {
             )}
           </CardHeader>
           <CardContent className="space-y-6">
+            {/* Recipe Image */}
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium">Recipe Image (optional)</h3>
+              <RecipeImageUpload
+                currentImageUrl={imageUrl}
+                onImageChange={setImageUrl}
+              />
+            </div>
+
             {/* Macros */}
             <RecipeMacros
               calories={parsedRecipe.calories}
