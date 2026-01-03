@@ -265,6 +265,96 @@ export type Database = {
         }
         Relationships: []
       }
+      public_recipes: {
+        Row: {
+          calories: number | null
+          carbs: number | null
+          cook_time_minutes: number | null
+          created_at: string
+          cuisine: string | null
+          description: string | null
+          dietary_flags: string[] | null
+          difficulty: string | null
+          equipment: Json | null
+          fat: number | null
+          fiber: number | null
+          id: string
+          image_url: string | null
+          ingredients: Json
+          name: string
+          prep_time_minutes: number | null
+          protein: number | null
+          review_notes: string | null
+          reviewed_by: string | null
+          servings: number
+          source_attribution: string | null
+          source_url: string | null
+          status: string
+          steps: Json
+          submitted_by: string | null
+          tags: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          calories?: number | null
+          carbs?: number | null
+          cook_time_minutes?: number | null
+          created_at?: string
+          cuisine?: string | null
+          description?: string | null
+          dietary_flags?: string[] | null
+          difficulty?: string | null
+          equipment?: Json | null
+          fat?: number | null
+          fiber?: number | null
+          id?: string
+          image_url?: string | null
+          ingredients?: Json
+          name: string
+          prep_time_minutes?: number | null
+          protein?: number | null
+          review_notes?: string | null
+          reviewed_by?: string | null
+          servings?: number
+          source_attribution?: string | null
+          source_url?: string | null
+          status?: string
+          steps?: Json
+          submitted_by?: string | null
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          calories?: number | null
+          carbs?: number | null
+          cook_time_minutes?: number | null
+          created_at?: string
+          cuisine?: string | null
+          description?: string | null
+          dietary_flags?: string[] | null
+          difficulty?: string | null
+          equipment?: Json | null
+          fat?: number | null
+          fiber?: number | null
+          id?: string
+          image_url?: string | null
+          ingredients?: Json
+          name?: string
+          prep_time_minutes?: number | null
+          protein?: number | null
+          review_notes?: string | null
+          reviewed_by?: string | null
+          servings?: number
+          source_attribution?: string | null
+          source_url?: string | null
+          status?: string
+          steps?: Json
+          submitted_by?: string | null
+          tags?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       recipes: {
         Row: {
           calories: number | null
@@ -279,10 +369,12 @@ export type Database = {
           image_url: string | null
           ingredients: Json
           is_favorite: boolean
+          is_modified: boolean | null
           name: string
           prep_time_minutes: number | null
           protein: number | null
           servings: number
+          source_public_recipe_id: string | null
           source_text: string | null
           source_url: string | null
           steps: Json
@@ -303,10 +395,12 @@ export type Database = {
           image_url?: string | null
           ingredients?: Json
           is_favorite?: boolean
+          is_modified?: boolean | null
           name: string
           prep_time_minutes?: number | null
           protein?: number | null
           servings?: number
+          source_public_recipe_id?: string | null
           source_text?: string | null
           source_url?: string | null
           steps?: Json
@@ -327,10 +421,12 @@ export type Database = {
           image_url?: string | null
           ingredients?: Json
           is_favorite?: boolean
+          is_modified?: boolean | null
           name?: string
           prep_time_minutes?: number | null
           protein?: number | null
           servings?: number
+          source_public_recipe_id?: string | null
           source_text?: string | null
           source_url?: string | null
           steps?: Json
@@ -338,7 +434,15 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "recipes_source_public_recipe_id_fkey"
+            columns: ["source_public_recipe_id"]
+            isOneToOne: false
+            referencedRelation: "public_recipes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
