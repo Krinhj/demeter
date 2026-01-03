@@ -195,16 +195,19 @@ export function RecipeDetail({ recipe }: RecipeDetailProps) {
 
           {/* Tabs for content */}
           <Tabs defaultValue="ingredients" className="w-full">
-            <TabsList>
-              <TabsTrigger value="ingredients">
-                Ingredients ({recipe.ingredients.length})
+            <TabsList className="w-full justify-start">
+              <TabsTrigger value="ingredients" className="flex-1 sm:flex-none">
+                <span className="hidden sm:inline">Ingredients ({recipe.ingredients.length})</span>
+                <span className="sm:hidden text-xs">Ingred. ({recipe.ingredients.length})</span>
               </TabsTrigger>
-              <TabsTrigger value="steps">
-                Steps ({recipe.steps.length})
+              <TabsTrigger value="steps" className="flex-1 sm:flex-none">
+                <span className="hidden sm:inline">Steps ({recipe.steps.length})</span>
+                <span className="sm:hidden text-xs">Steps ({recipe.steps.length})</span>
               </TabsTrigger>
               {recipe.equipment && recipe.equipment.length > 0 && (
-                <TabsTrigger value="equipment">
-                  Equipment ({recipe.equipment.length})
+                <TabsTrigger value="equipment" className="flex-1 sm:flex-none">
+                  <span className="hidden sm:inline">Equipment ({recipe.equipment.length})</span>
+                  <span className="sm:hidden text-xs">Equip. ({recipe.equipment.length})</span>
                 </TabsTrigger>
               )}
             </TabsList>

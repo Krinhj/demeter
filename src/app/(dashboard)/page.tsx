@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Flame, Beef, Wheat, Droplets } from "lucide-react";
+import { getRecipes } from "@/server/services/recipes-service";
 
 // Mock data for demonstration
 const mockNutritionGoals = {
@@ -20,14 +21,12 @@ const mockWeeklyPlan = [
   { day: "Sun", meals: { breakfast: "Eggs Benedict", lunch: "Meal Prep", dinner: "Roast Chicken" } },
 ];
 
-const mockRecentRecipes = [
-  { name: "Grilled Chicken Breast", calories: 350, protein: 45 },
-  { name: "Salmon with Asparagus", calories: 420, protein: 38 },
-  { name: "Quinoa Buddha Bowl", calories: 480, protein: 18 },
-];
-
-export default function DashboardPage() {
+export default async function DashboardPage() {
   const today = new Date().toLocaleDateString("en-US", { weekday: "short" });
+
+  // Fetch recent recipes from database
+  const recentRecipes = await getRecipes({ sort_by: "created_at", sort_order: "desc" });
+  const recentRecipesDisplay = recentRecipes.slice(0, 3);
 
   return (
     <div className="p-6 lg:p-10 space-y-8">
@@ -137,7 +136,8 @@ export default function DashboardPage() {
           <CardDescription>Your planned meals for the week</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-7 gap-2">
+          {/* Desktop: 7-column grid, Mobile: Vertical stack */}
+          <div className="hidden md:grid md:grid-cols-7 gap-2">
             {mockWeeklyPlan.map((day) => (
               <div
                 key={day.day}
@@ -169,6 +169,40 @@ export default function DashboardPage() {
               </div>
             ))}
           </div>
+
+          {/* Mobile: Vertical list */}
+          <div className="md:hidden space-y-3">
+            {mockWeeklyPlan.map((day) => (
+              <div
+                key={day.day}
+                className={`rounded-lg border p-4 ${
+                  day.day === today.slice(0, 3)
+                    ? "border-primary bg-primary/5"
+                    : "border-border"
+                }`}
+              >
+                <div className={`text-base font-semibold mb-3 ${
+                  day.day === today.slice(0, 3) ? "text-primary" : ""
+                }`}>
+                  {day.day}
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-baseline gap-3">
+                    <p className="text-xs uppercase text-muted-foreground w-20">Breakfast</p>
+                    <p className="text-sm flex-1">{day.meals.breakfast}</p>
+                  </div>
+                  <div className="flex items-baseline gap-3">
+                    <p className="text-xs uppercase text-muted-foreground w-20">Lunch</p>
+                    <p className="text-sm flex-1">{day.meals.lunch}</p>
+                  </div>
+                  <div className="flex items-baseline gap-3">
+                    <p className="text-xs uppercase text-muted-foreground w-20">Dinner</p>
+                    <p className="text-sm flex-1">{day.meals.dinner}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
       </Card>
 
@@ -182,9 +216,9 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {mockRecentRecipes.map((recipe, index) => (
+              {recentRecipesDisplay.map((recipe) => (
                 <div
-                  key={index}
+                  key={recipe.id}
                   className="flex items-center justify-between rounded-lg border border-border p-3"
                 >
                   <div>
@@ -195,7 +229,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
               ))}
-              {mockRecentRecipes.length === 0 && (
+              {recentRecipesDisplay.length === 0 && (
                 <p className="text-sm text-muted-foreground text-center py-4">
                   No recipes yet. Add your first recipe to get started.
                 </p>
