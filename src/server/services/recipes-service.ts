@@ -1,4 +1,4 @@
-import { createServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import type { RecipeFilters, RecipeCardData, RecipeWithDetails, Ingredient, Equipment } from "@/types/recipe";
 import type { TablesInsert, TablesUpdate } from "@/lib/supabase/database.types";
 
@@ -6,7 +6,7 @@ import type { TablesInsert, TablesUpdate } from "@/lib/supabase/database.types";
  * Get all recipes with optional filters
  */
 export async function getRecipes(filters: RecipeFilters = {}): Promise<RecipeCardData[]> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   let query = supabase
     .from("recipes")
@@ -60,7 +60,7 @@ export async function getRecipes(filters: RecipeFilters = {}): Promise<RecipeCar
  * Get a single recipe by ID with full details
  */
 export async function getRecipeById(id: string): Promise<RecipeWithDetails | null> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("recipes")
@@ -91,7 +91,7 @@ export async function getRecipeById(id: string): Promise<RecipeWithDetails | nul
 export async function createRecipe(
   recipe: Omit<TablesInsert<"recipes">, "id" | "created_at" | "updated_at">
 ): Promise<string> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("recipes")
@@ -114,7 +114,7 @@ export async function updateRecipe(
   id: string,
   updates: TablesUpdate<"recipes">
 ): Promise<void> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from("recipes")
@@ -131,7 +131,7 @@ export async function updateRecipe(
  * Delete a recipe
  */
 export async function deleteRecipe(id: string): Promise<void> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const { error } = await supabase
     .from("recipes")
@@ -148,7 +148,7 @@ export async function deleteRecipe(id: string): Promise<void> {
  * Toggle favorite status
  */
 export async function toggleFavorite(id: string): Promise<boolean> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   // Get current status
   const { data: current, error: fetchError } = await supabase
@@ -182,7 +182,7 @@ export async function toggleFavorite(id: string): Promise<boolean> {
  * Get all unique tags from recipes
  */
 export async function getAllTags(): Promise<string[]> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("recipes")
@@ -206,7 +206,7 @@ export async function getAllTags(): Promise<string[]> {
  * Get recipe count
  */
 export async function getRecipeCount(): Promise<number> {
-  const supabase = await createServerClient();
+  const supabase = await createClient();
 
   const { count, error } = await supabase
     .from("recipes")

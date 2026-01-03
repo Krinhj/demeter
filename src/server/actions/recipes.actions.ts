@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidateTag } from "next/cache";
-import { createServerClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { parseRecipe } from "@/lib/ai/recipe-parser";
 import {
   createRecipe,
@@ -28,7 +28,7 @@ export async function parseRecipeAction(
   // Validate input
   const validated = parseRecipeInputSchema.safeParse(input);
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   // Parse with AI
@@ -48,7 +48,7 @@ export async function createRecipeAction(
   input: unknown
 ): Promise<ActionResult<{ id: string }>> {
   // Get current user
-  const supabase = await createServerClient();
+  const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
 
   if (authError || !user) {
@@ -58,7 +58,7 @@ export async function createRecipeAction(
   // Validate input
   const validated = createRecipeSchema.safeParse(input);
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   try {
@@ -100,7 +100,7 @@ export async function updateRecipeAction(
   input: unknown
 ): Promise<ActionResult<void>> {
   // Get current user
-  const supabase = await createServerClient();
+  const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
 
   if (authError || !user) {
@@ -110,7 +110,7 @@ export async function updateRecipeAction(
   // Validate input
   const validated = updateRecipeSchema.safeParse(input);
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   const { id, ...updates } = validated.data;
@@ -134,7 +134,7 @@ export async function deleteRecipeAction(
   input: { id: string }
 ): Promise<ActionResult<void>> {
   // Get current user
-  const supabase = await createServerClient();
+  const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
 
   if (authError || !user) {
@@ -144,7 +144,7 @@ export async function deleteRecipeAction(
   // Validate input
   const validated = deleteRecipeSchema.safeParse(input);
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   try {
@@ -165,7 +165,7 @@ export async function toggleFavoriteAction(
   input: { id: string }
 ): Promise<ActionResult<{ is_favorite: boolean }>> {
   // Get current user
-  const supabase = await createServerClient();
+  const supabase = await createClient();
   const { data: { user }, error: authError } = await supabase.auth.getUser();
 
   if (authError || !user) {
@@ -175,7 +175,7 @@ export async function toggleFavoriteAction(
   // Validate input
   const validated = toggleFavoriteSchema.safeParse(input);
   if (!validated.success) {
-    return { success: false, error: validated.error.errors[0].message };
+    return { success: false, error: validated.error.issues[0].message };
   }
 
   try {
