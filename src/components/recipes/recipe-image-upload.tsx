@@ -96,11 +96,11 @@ export function RecipeImageUpload({
       />
 
       {previewUrl ? (
-        <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-muted">
+        <div className="relative h-64 w-full overflow-hidden rounded-lg border bg-muted md:h-96">
           <img
             src={previewUrl}
             alt="Recipe preview"
-            className="h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
           {isUploading && (
             <div className="absolute inset-0 flex items-center justify-center bg-background/80">
@@ -136,7 +136,7 @@ export function RecipeImageUpload({
           onClick={handleClick}
           disabled={isUploading}
           className={cn(
-            "flex aspect-video w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed bg-muted/50 transition-colors hover:bg-muted",
+            "flex h-64 w-full flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed bg-muted/50 transition-colors hover:bg-muted md:h-96",
             isUploading && "cursor-not-allowed opacity-50"
           )}
         >

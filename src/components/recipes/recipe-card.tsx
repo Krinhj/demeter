@@ -39,12 +39,12 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
     <Link href={`/recipes/${recipe.id}`}>
       <Card className="group h-full overflow-hidden pt-0 transition-all hover:border-primary/50 hover:shadow-md">
         {/* Image placeholder */}
-        <div className="relative aspect-video bg-muted">
+        <div className="relative h-48 w-full overflow-hidden bg-muted">
           {recipe.image_url ? (
             <img
               src={recipe.image_url}
               alt={recipe.name}
-              className="h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover object-center"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">

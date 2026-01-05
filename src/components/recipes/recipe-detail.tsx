@@ -133,12 +133,12 @@ export function RecipeDetail({ recipe }: RecipeDetailProps) {
       {/* Recipe Card */}
       <Card className="overflow-hidden pt-0">
         {/* Image */}
-        <div className="relative aspect-video w-full bg-muted">
+        <div className="relative h-64 w-full overflow-hidden bg-muted md:h-96">
           {recipe.image_url ? (
             <img
               src={recipe.image_url}
               alt={recipe.name}
-              className="h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover object-center"
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">
